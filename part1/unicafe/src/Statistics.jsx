@@ -1,3 +1,5 @@
+import StatisticLine from "./StatisticLine";
+
 const Statistics = ({
     good,
     neutral,
@@ -14,12 +16,12 @@ const Statistics = ({
             : (
             <>
                 <h2>Statistics</h2>
-                <p>Good: {good}</p>
-                <p>Neutral: {neutral}</p>
-                <p>Bad: {bad}</p>
-                <p>All: {quantity}</p>
-                <p>Average: {total / quantity}</p>
-                <p>Positive: {(good / quantity) * 100}%</p>
+                <StatisticLine text="Good" value={good}/>
+                <StatisticLine text="Neutral" value={neutral}/>
+                <StatisticLine text="Bad" value={bad}/>
+                <StatisticLine text="All" value={quantity}/>
+                <StatisticLine text="Average" value={total / quantity}/>
+                <StatisticLine text="Positive" value={`${(good / quantity) * 100}%`}/> 
             </>
             )
         }
