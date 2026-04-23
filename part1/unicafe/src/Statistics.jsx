@@ -16,12 +16,18 @@ const Statistics = ({
             : (
             <>
                 <h2>Statistics</h2>
-                <StatisticLine text="Good" value={good}/>
-                <StatisticLine text="Neutral" value={neutral}/>
-                <StatisticLine text="Bad" value={bad}/>
-                <StatisticLine text="All" value={quantity}/>
-                <StatisticLine text="Average" value={total / quantity}/>
-                <StatisticLine text="Positive" value={`${(good / quantity) * 100}%`}/> 
+                <table>
+                    <tbody>
+                        <StatisticLine text="Good" value={good}/>
+                        <StatisticLine text="Neutral" value={neutral}/>
+                        <StatisticLine text="Bad" value={bad}/>
+                        <StatisticLine text="All" value={quantity}/>
+                        <StatisticLine text="Average" value={total / quantity}/>
+                        <StatisticLine text="Positive" value={`${(good / quantity) * 100}%`}/> 
+                    </tbody>
+                    
+                </table>
+
             </>
             )
         }
