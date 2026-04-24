@@ -2,9 +2,10 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { id: `Arto Hellas ${Math.random()}`, name: 'Arto Hellas' }
+    { id: `Arto Hellas ${Math.random()}`, name: 'Arto Hellas', number: "040-1234567" }
   ]) 
-  const [newName, setNewName] = useState('')
+  const [newName, setNewName] = useState('');
+  const [newNumber, setNewNumber] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -13,10 +14,12 @@ const App = () => {
 
     const newPerson = {
       id: `${newName} ${Math.random()}`,
-      name: newName
+      name: newName,
+      number: newNumber
     };
     setPersons([...persons, newPerson]);
     setNewName("");
+    setNewNumber("");
   }
 
   return (
@@ -31,6 +34,11 @@ const App = () => {
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                 />
+          <br />
+          number: <input 
+                  value={newNumber}
+                  onChange={(e) => setNewNumber(e.target.value)}
+                />
         </div>
         <div>
           <button 
@@ -42,7 +50,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {
-        persons.map((person) => <p key={person.id}>{person.name}</p>)
+        persons.map((person) => <p key={person.id}>{person.name}: {person.number}</p>)
       }
     </div>
   )
