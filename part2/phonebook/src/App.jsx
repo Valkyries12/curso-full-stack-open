@@ -8,6 +8,9 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const nameFound = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
+    if (nameFound) return alert(`${nameFound.name} is already added to phonebook`);
+
     const newPerson = {
       id: `${newName} ${Math.random()}`,
       name: newName
