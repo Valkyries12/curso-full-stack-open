@@ -24,6 +24,11 @@
       "name": "nicolas maximiliano",
       "number": "1234567",
       "id": "4PjA1aQZTu8"
+    },
+    {
+      "name": "Camaron",
+      "number": "11223344",
+      "id": "fFVmJ5rhBnw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
