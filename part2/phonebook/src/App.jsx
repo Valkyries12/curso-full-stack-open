@@ -24,13 +24,28 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const nameFound = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
-    if (nameFound) return alert(`${nameFound.name} is already added to phonebook`);
+    const personFound = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
+    if (personFound) {
+      const isChoosedForEdit = window.confirm(`${personFound.name} is already added to phonebook, replace the old number with a new one?`);
+      if (isChoosedForEdit) {
+        personService
+            .update(personFound.id, {...personFound, number: newNumber})
+            .then((updatedPerson) => {
+              const filteredList = persons.map(person => person.id === updatedPerson.id ? updatedPerson : person);
+              setPersons(filteredList);
+              setNewName("");
+              setNewNumber("");
+            })
+        
+      }
+      return
+    }
 
     const newPerson = {
       name: newName,
       number: newNumber
     };
+
     personService
       .create(newPerson)
       .then((createdPerson) => {
