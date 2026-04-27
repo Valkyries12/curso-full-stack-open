@@ -41,6 +41,18 @@ const App = () => {
    
   }
 
+  const handleDelete = (id) => {
+    const choosedPerson = persons.filter(person => person.id === id);
+    const isConfirmed = window.confirm(`Are you sure you want to delete ${choosedPerson[0].name}`);
+    if (!isConfirmed) return
+
+    personService
+      .deletePerson(id)
+      .then(response => {
+        setPersons(persons.filter((person) => person.id !== response.id));
+      })
+  }
+
   const filteredPersons = persons.filter((person) => person.name.includes(search));
 
 
@@ -65,6 +77,7 @@ const App = () => {
       <h2>Numbers</h2>
       <Persons 
         filteredPersons={filteredPersons}
+        handleDelete={handleDelete}
       />
       
     </div>
