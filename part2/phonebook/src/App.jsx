@@ -27,13 +27,20 @@ const App = () => {
     if (nameFound) return alert(`${nameFound.name} is already added to phonebook`);
 
     const newPerson = {
-      id: `${newName} ${Math.random()}`,
+      //id: `${newName} ${Math.random()}`,
       name: newName,
       number: newNumber
     };
-    setPersons([...persons, newPerson]);
-    setNewName("");
-    setNewNumber("");
+    axios
+      .post("http://localhost:3001/persons/", newPerson)
+      .then(response => {
+        console.log(response)
+        setPersons([...persons, newPerson]);
+        setNewName("");
+        setNewNumber("");
+      });
+
+    
   }
 
   const filteredPersons = persons.filter((person) => person.name.includes(search));
