@@ -24,11 +24,6 @@
       "name": "alex",
       "number": "1111111",
       "id": "DFy4Zp4h3LI"
-    },
-    {
-      "name": "cangrejo",
-      "number": "12345",
-      "id": "8vU_OcvwUPI"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

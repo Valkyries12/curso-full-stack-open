@@ -38,6 +38,14 @@ const App = () => {
               setNewName("");
               setNewNumber("");
             })
+            .catch((error) => {
+              setMessage(`Error: Information of ${personFound.name} has already removed from server`);
+              setTimeout(() => {
+                setMessage(null);
+              }, 3000);
+              setNewName("");
+              setNewNumber("");
+            })
         
       }
       return
@@ -59,6 +67,14 @@ const App = () => {
         setNewName("");
         setNewNumber("");
       })
+      .catch((error) => {
+        setMessage(`Error: ${error}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+        setNewName("");
+        setNewNumber("");
+      })
    
   }
 
@@ -71,6 +87,12 @@ const App = () => {
       .deletePerson(id)
       .then(response => {
         setPersons(persons.filter((person) => person.id !== response.id));
+      })
+      .catch((error) => {
+        setMessage(`Error: ${error}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
       })
   }
 
