@@ -4,12 +4,14 @@ import Filter from './Filter';
 import PersonForm from './PersonForm';
 import Persons from './Persons';
 import personService from './services/personService';
+import Notification from './Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([]); 
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
+  const [message, setMessage] = useState(null);
 
 
   useEffect(() => {
@@ -50,6 +52,10 @@ const App = () => {
       .create(newPerson)
       .then((createdPerson) => {
         setPersons([...persons, createdPerson]);
+        setMessage(`Added ${createdPerson.name}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
         setNewName("");
         setNewNumber("");
       })
@@ -75,6 +81,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message}/>
       <Filter 
         value={search} 
         onChange={setSearch}
