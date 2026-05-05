@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
   const [message, setMessage] = useState(null);
+  const [filteredPersons, setFilteredPersons] = useState([]);
 
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const App = () => {
         .getAll()
         .then((initialPersons) => {
           setPersons(initialPersons);
+          setFilteredPersons(initialPersons);
         })
       
   }, []);
@@ -59,7 +61,7 @@ const App = () => {
     personService
       .create(newPerson)
       .then((createdPerson) => {
-        setPersons([...persons, createdPerson]);
+        setFilteredPersons([...persons, createdPerson]);
         setMessage(`Added ${createdPerson.name}`);
         setTimeout(() => {
           setMessage(null);
@@ -86,7 +88,7 @@ const App = () => {
     personService
       .deletePerson(id)
       .then(response => {
-        setPersons(persons.filter((person) => person.id !== response.id));
+        setFilteredPersons(persons.filter((person) => person.id !== id));
       })
       .catch((error) => {
         setMessage(`Error: ${error}`);
@@ -96,7 +98,13 @@ const App = () => {
       })
   }
 
-  const filteredPersons = persons.filter((person) => person.name.includes(search));
+
+  const handleChange = (value) => {
+    setSearch(value);
+    const filtered = persons.filter((person) => person.name.includes(value));
+    setFilteredPersons(filtered);
+  }
+  
 
 
 
@@ -106,7 +114,7 @@ const App = () => {
       <Notification message={message}/>
       <Filter 
         value={search} 
-        onChange={setSearch}
+        onChange={handleChange}
       />
       
       <h2>Add a new</h2>
