@@ -15,6 +15,7 @@ const App = () => {
 
 
   useEffect(() => {
+      
       personService
         .getAll()
         .then((initialPersons) => {
