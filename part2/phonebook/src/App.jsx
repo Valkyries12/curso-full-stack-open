@@ -6,57 +6,52 @@ import personService from './services/personService';
 import Notification from './Notification';
 
 const App = () => {
-  const [persons, setPersons] = useState([]); 
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
-  const [newNumber, setNewNumber] = useState("");
-  const [search, setSearch] = useState("");
+  const [newNumber, setNewNumber] = useState('');
+  const [search, setSearch] = useState('');
   const [message, setMessage] = useState(null);
 
   const filteredPersons = persons.filter((person) => person.name.toLowerCase().includes(search.toLowerCase()));
 
-
   useEffect(() => {
-      
-      personService
-        .getAll()
-        .then((initialPersons) => {
-          setPersons(initialPersons);
-        })
-      
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
+    });
   }, []);
-
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const personFound = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase());
     if (personFound) {
-      const isChoosedForEdit = window.confirm(`${personFound.name} is already added to phonebook, replace the old number with a new one?`);
+      const isChoosedForEdit = window.confirm(
+        `${personFound.name} is already added to phonebook, replace the old number with a new one?`,
+      );
       if (isChoosedForEdit) {
         personService
-            .update(personFound.id, {...personFound, number: newNumber})
-            .then((updatedPerson) => {
-              const filteredList = persons.map(person => person.id === updatedPerson.id ? updatedPerson : person);
-              setPersons(filteredList);
-              setNewName("");
-              setNewNumber("");
-            })
-            .catch((error) => {
-              setMessage(`Error: Information of ${personFound.name} has already removed from server`);
-              console.error(error);
-              setTimeout(() => {
-                setMessage(null);
-              }, 3000);
-              setNewName("");
-              setNewNumber("");
-            })
-        
+          .update(personFound.id, { ...personFound, number: newNumber })
+          .then((updatedPerson) => {
+            const filteredList = persons.map((person) => (person.id === updatedPerson.id ? updatedPerson : person));
+            setPersons(filteredList);
+            setNewName('');
+            setNewNumber('');
+          })
+          .catch((error) => {
+            setMessage(`Error: Information of ${personFound.name} has already removed from server`);
+            console.error(error);
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+            setNewName('');
+            setNewNumber('');
+          });
       }
-      return
+      return;
     }
 
     const newPerson = {
       name: newName,
-      number: newNumber
+      number: newNumber,
     };
 
     personService
@@ -67,28 +62,27 @@ const App = () => {
         setTimeout(() => {
           setMessage(null);
         }, 3000);
-        setNewName("");
-        setNewNumber("");
+        setNewName('');
+        setNewNumber('');
       })
       .catch((error) => {
         setMessage(`Error: ${error}`);
         setTimeout(() => {
           setMessage(null);
         }, 3000);
-        setNewName("");
-        setNewNumber("");
-      })
-   
-  }
+        setNewName('');
+        setNewNumber('');
+      });
+  };
 
   const handleDelete = (id) => {
-    const choosedPerson = persons.filter(person => person.id === id);
+    const choosedPerson = persons.filter((person) => person.id === id);
     const isConfirmed = window.confirm(`Are you sure you want to delete ${choosedPerson[0].name}`);
-    if (!isConfirmed) return
+    if (!isConfirmed) return;
 
     personService
       .deletePerson(id)
-      .then(response => {
+      .then((response) => {
         setPersons(persons.filter((person) => person.id !== id));
       })
       .catch((error) => {
@@ -96,43 +90,32 @@ const App = () => {
         setTimeout(() => {
           setMessage(null);
         }, 3000);
-      })
-  }
-
+      });
+  };
 
   const handleChange = (value) => {
     setSearch(value);
-  }
-  
-
-
+  };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message}/>
-      <Filter 
-        value={search} 
-        onChange={handleChange}
-      />
-      
+      <Notification message={message} />
+      <Filter value={search} onChange={handleChange} />
+
       <h2>Add a new</h2>
-      <PersonForm 
+      <PersonForm
         onSubmit={handleSubmit}
         onChangeName={setNewName}
         newName={newName}
         onChangeNumber={setNewNumber}
         newNumber={newNumber}
       />
-      
-      <h2>Numbers</h2>
-      <Persons 
-        filteredPersons={filteredPersons}
-        handleDelete={handleDelete}
-      />
-      
-    </div>
-  )
-}
 
-export default App
+      <h2>Numbers</h2>
+      <Persons filteredPersons={filteredPersons} handleDelete={handleDelete} />
+    </div>
+  );
+};
+
+export default App;
